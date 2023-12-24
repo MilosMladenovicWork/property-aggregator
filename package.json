@@ -1,7 +1,7 @@
 {
   "name": "property-aggregator",
   "version": "0.0.1",
-  "description": "",
+  "description": "API for aggregating and serving properties to buy in Belgrade from most popular public platforms",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
