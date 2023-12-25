@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PropertyHaloOglasiService } from './property-halo-oglasi.service';
 import { PropertyController } from './property.controller';
 import { PropertyService } from './property.service';
 import { Property, PropertySchema } from './schema/property.schema';
@@ -11,6 +12,6 @@ import { Property, PropertySchema } from './schema/property.schema';
     ]),
   ],
   controllers: [PropertyController],
-  providers: [PropertyService],
+  providers: [PropertyService, PropertyHaloOglasiService],
 })
 export class PropertyModule {}
