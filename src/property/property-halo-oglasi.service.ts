@@ -6,15 +6,17 @@ import { Property } from './schema/property.schema';
 
 @Injectable()
 export class PropertyHaloOglasiService {
-  constructor() {}
+  private url: string;
+
+  constructor() {
+    this.url = 'https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd';
+  }
 
   async getPropertiesFromHaloOglasi({ browser }: { browser: Browser }) {
     const page = await browser.newPage();
 
     try {
-      await page.goto(
-        'https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd',
-      );
+      await page.goto(this.url);
 
       const properties = await this.getHaloOglasiPropertiesFromPage({ page });
 
@@ -27,11 +29,7 @@ export class PropertyHaloOglasiService {
       while (currentPage < totalNumberOfPages) {
         await sleep(2000);
 
-        console.log(properties);
-
-        await page.goto(
-          `https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd?page=${currentPage}`,
-        );
+        await this.goToCurrentPage({ page, currentPage });
 
         const propertiesOnCurrentPage =
           await this.getHaloOglasiPropertiesFromPage({ page });
@@ -112,5 +110,19 @@ export class PropertyHaloOglasiService {
     }
 
     return totalNumberOfPages;
+  }
+
+  private async goToCurrentPage({
+    currentPage,
+    page,
+  }: {
+    currentPage: number;
+    page: Page;
+  }) {
+    const pageUrl = new URL(this.url);
+
+    pageUrl.searchParams.set('page', currentPage.toString());
+
+    await page.goto(pageUrl.toString());
   }
 }
