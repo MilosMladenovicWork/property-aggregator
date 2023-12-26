@@ -8,6 +8,8 @@ import { Property } from './schema/property.schema';
 
 @Injectable()
 export class PropertyService {
+  syncPropertiesFromExternalProvidersExecuting = false;
+
   constructor(
     @InjectModel(Property.name) private propertyModel: Model<Property>,
     private propertyHaloOglasiService: PropertyHaloOglasiService,
@@ -19,12 +21,22 @@ export class PropertyService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async syncPropertiesFromExternalProviders() {
-    const browser = await launch({ headless: true });
+    try {
+      if (!this.syncPropertiesFromExternalProvidersExecuting) {
+        this.syncPropertiesFromExternalProvidersExecuting = true;
 
-    await this.propertyHaloOglasiService.getPropertiesFromHaloOglasi({
-      browser,
-    });
+        const browser = await launch({ headless: false });
 
-    await browser.close();
+        await this.propertyHaloOglasiService.getPropertiesFromHaloOglasi({
+          browser,
+        });
+
+        await browser.close();
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.syncPropertiesFromExternalProvidersExecuting = false;
+    }
   }
 }
