@@ -24,19 +24,19 @@ export class PropertyHaloOglasiService {
         page,
       });
 
-      let currentPage = 2;
+      let pageNumber = 2;
 
-      while (currentPage < totalNumberOfPages) {
+      while (pageNumber < totalNumberOfPages) {
         await sleep(2000);
 
-        await this.goToCurrentPage({ page, currentPage });
+        await this.goToPage({ page, pageNumber });
 
         const propertiesOnCurrentPage =
           await this.getHaloOglasiPropertiesFromPage({ page });
 
         properties.concat(propertiesOnCurrentPage);
 
-        currentPage++;
+        pageNumber++;
       }
 
       return properties;
@@ -90,6 +90,33 @@ export class PropertyHaloOglasiService {
   }
 
   private async getHaloOglasiNumberOfPages({ page }: { page: Page }) {
+    const paginationLinksText = await this.getHaloOglasiPaginationLinksText({
+      page,
+    });
+
+    const totalNumberOfPages =
+      this.getHaloOglasiTotalNumberOfPagesFromPaginationLinksText({
+        paginationLinksText,
+      });
+
+    return totalNumberOfPages;
+  }
+
+  private async goToPage({
+    pageNumber,
+    page,
+  }: {
+    pageNumber: number;
+    page: Page;
+  }) {
+    const pageUrl = new URL(this.url);
+
+    pageUrl.searchParams.set('page', pageNumber.toString());
+
+    await page.goto(pageUrl.toString());
+  }
+
+  private async getHaloOglasiPaginationLinksText({ page }: { page: Page }) {
     const foundNextPageLinksText = (
       await page.$$eval('a.page-link', (elements) => {
         return elements.slice(0, 100).map((element) => {
@@ -98,8 +125,16 @@ export class PropertyHaloOglasiService {
       })
     ).filter<string>((text): text is string => !isNil(text));
 
+    return foundNextPageLinksText;
+  }
+
+  private getHaloOglasiTotalNumberOfPagesFromPaginationLinksText({
+    paginationLinksText,
+  }: {
+    paginationLinksText: string[];
+  }) {
     const totalNumberOfPagesText =
-      foundNextPageLinksText[foundNextPageLinksText.length - 2];
+      paginationLinksText[paginationLinksText.length - 2];
 
     const totalNumberOfPages = toNumber(totalNumberOfPagesText);
 
@@ -110,19 +145,5 @@ export class PropertyHaloOglasiService {
     }
 
     return totalNumberOfPages;
-  }
-
-  private async goToCurrentPage({
-    currentPage,
-    page,
-  }: {
-    currentPage: number;
-    page: Page;
-  }) {
-    const pageUrl = new URL(this.url);
-
-    pageUrl.searchParams.set('page', currentPage.toString());
-
-    await page.goto(pageUrl.toString());
   }
 }
