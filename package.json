@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "npm run start:dev:containers & nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:dev:containers": "docker-compose -f ./docker/docker-compose.yml up",
+    "start:dev:containers": "docker-compose -f ./docker/docker-compose.yml up -d",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
