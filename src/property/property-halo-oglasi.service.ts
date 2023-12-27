@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { isNaN, isNil, toNumber } from 'lodash';
+import { Model } from 'mongoose';
 import { Browser, Page } from 'puppeteer';
 import { sleep } from 'src/utils/sleep';
 import { Property } from './schema/property.schema';
+import { PROPERTY_PROVIDERS } from './types/property-providers.enum';
 
 @Injectable()
 export class PropertyHaloOglasiService {
   private url: string;
 
-  constructor() {
+  constructor(
+    @InjectModel(Property.name) private propertyModel: Model<Property>,
+  ) {
     this.url = 'https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd';
   }
 
@@ -19,6 +24,12 @@ export class PropertyHaloOglasiService {
       await page.goto(this.url);
 
       const properties = await this.getHaloOglasiPropertiesFromPage({ page });
+
+      for (const property of properties) {
+        await this.propertyModel.updateOne({ url: property.url }, property, {
+          upsert: true,
+        });
+      }
 
       const totalNumberOfPages = await this.getHaloOglasiNumberOfPages({
         page,
@@ -34,6 +45,11 @@ export class PropertyHaloOglasiService {
         const propertiesOnCurrentPage =
           await this.getHaloOglasiPropertiesFromPage({ page });
 
+        for (const property of propertiesOnCurrentPage) {
+          await this.propertyModel.updateOne({ url: property.url }, property, {
+            upsert: true,
+          });
+        }
         properties.concat(propertiesOnCurrentPage);
 
         pageNumber++;
@@ -47,7 +63,11 @@ export class PropertyHaloOglasiService {
     return [];
   }
 
-  private async getHaloOglasiPropertiesFromPage({ page }: { page: Page }) {
+  private async getHaloOglasiPropertiesFromPage({
+    page,
+  }: {
+    page: Page;
+  }): Promise<Property[]> {
     const foundProperties = (
       await page.$$eval('.product-item:not(.banner-list)', (elements) => {
         return elements.slice(0, 100).map((element) => {
@@ -84,9 +104,24 @@ export class PropertyHaloOglasiService {
           return property;
         });
       })
-    ).filter<Property>((property): property is Property => !isNil(property));
+    ).filter<
+      Omit<Property, 'provider'> & { provider: undefined | PROPERTY_PROVIDERS }
+    >(
+      (
+        property,
+      ): property is Omit<Property, 'provider'> & {
+        provider: undefined | PROPERTY_PROVIDERS;
+      } => !isNil(property),
+    );
 
-    return foundProperties;
+    return foundProperties.map((property) => {
+      const propertyWithNeededData: Property = {
+        ...property,
+        provider: PROPERTY_PROVIDERS.HALO_OGLASI,
+      };
+
+      return propertyWithNeededData;
+    });
   }
 
   private async getHaloOglasiNumberOfPages({ page }: { page: Page }) {
