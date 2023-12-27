@@ -115,9 +115,11 @@ export class PropertyHaloOglasiService {
     );
 
     return foundProperties.map((property) => {
+      const url = new URL(property.url);
       const propertyWithNeededData: Property = {
         ...property,
         provider: PROPERTY_PROVIDERS.HALO_OGLASI,
+        url: url.origin + url.pathname,
       };
 
       return propertyWithNeededData;
