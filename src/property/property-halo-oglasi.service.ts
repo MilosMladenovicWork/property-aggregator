@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { isNaN, isNil, toNumber } from 'lodash';
 import { Model } from 'mongoose';
 import { Browser, Page } from 'puppeteer';
+import { puppeteerRequestMediaAbortHandler } from 'src/utils/puppeteer/puppeteer-request-media-abort-handler';
 import { sleep } from 'src/utils/sleep';
 import { Property } from './schema/property.schema';
 import { PROPERTY_PROVIDERS } from './types/property-providers.enum';
@@ -19,6 +20,10 @@ export class PropertyHaloOglasiService {
 
   async getPropertiesFromHaloOglasi({ browser }: { browser: Browser }) {
     const page = await browser.newPage();
+
+    await page.setRequestInterception(true);
+
+    page.on('request', puppeteerRequestMediaAbortHandler);
 
     try {
       await page.goto(this.url);
