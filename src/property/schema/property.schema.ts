@@ -20,6 +20,21 @@ export class Property {
 
   @Prop({ required: true })
   provider: PROPERTY_PROVIDERS;
+
+  @Prop({ type: 'string' })
+  description?: string | null;
+
+  @Prop({ type: 'string' })
+  propertyType?: string | null;
+
+  @Prop({ type: 'number' })
+  squareMeters?: number | null;
+
+  @Prop({ type: 'string' })
+  numberOfRooms?: string | null;
+
+  @Prop({ default: [] })
+  propertyFlags: string[];
 }
 
 export const PropertySchema = SchemaFactory.createForClass(Property);

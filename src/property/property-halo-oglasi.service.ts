@@ -24,19 +24,24 @@ export class PropertyHaloOglasiService {
     try {
       await this.page.goto(this.url);
 
+      const totalNumberOfPages = await this.getHaloOglasiNumberOfPages({
+        page: this.page,
+      });
+
       const properties = await this.getHaloOglasiPropertiesFromPage({
         page: this.page,
       });
 
-      for (const property of properties) {
+      const propertiesWithFullData =
+        await this.getHaloOglasiFullPropertiesDataForProperties({
+          properties,
+        });
+
+      for (const property of propertiesWithFullData) {
         await this.propertyModel.updateOne({ url: property.url }, property, {
           upsert: true,
         });
       }
-
-      const totalNumberOfPages = await this.getHaloOglasiNumberOfPages({
-        page: this.page,
-      });
 
       let pageNumber = 2;
 
@@ -48,11 +53,17 @@ export class PropertyHaloOglasiService {
         const propertiesOnCurrentPage =
           await this.getHaloOglasiPropertiesFromPage({ page: this.page });
 
-        for (const property of propertiesOnCurrentPage) {
+        const propertiesWithFullData =
+          await this.getHaloOglasiFullPropertiesDataForProperties({
+            properties: propertiesOnCurrentPage,
+          });
+
+        for (const property of propertiesWithFullData) {
           await this.propertyModel.updateOne({ url: property.url }, property, {
             upsert: true,
           });
         }
+
         properties.concat(propertiesOnCurrentPage);
 
         pageNumber++;
@@ -185,5 +196,70 @@ export class PropertyHaloOglasiService {
     }
 
     return totalNumberOfPages;
+  }
+
+  async getHaloOglasiFullPropertiesDataForProperties({
+    properties,
+  }: {
+    properties: Property[];
+  }): Promise<Property[]> {
+    const propertiesWithAllData: Property[] = [];
+
+    for (const property of properties) {
+      propertiesWithAllData.push(
+        await this.getHaloOglasiPropertyDataFromPropertyPage({ property }),
+      );
+    }
+
+    return propertiesWithAllData;
+  }
+
+  private async getHaloOglasiPropertyDataFromPropertyPage({
+    property,
+  }: {
+    property: Property;
+  }): Promise<Property> {
+    await this.page.goto(property.url);
+
+    const foundProperty: Partial<Property> = (
+      await this.page.$$eval('.product-page', (elements) => {
+        return elements.slice(0, 1).map((element) => {
+          const description =
+            element.querySelector<HTMLElement>('#plh50')?.innerText;
+
+          const propertyType = element.querySelector<HTMLElement>(
+            '.prominent li:nth-of-type(1) span:nth-of-type(2)',
+          )?.innerText;
+
+          const squareMeters = element
+            .querySelector<HTMLElement>(
+              '.prominent li:nth-of-type(2) span:nth-of-type(2)',
+            )
+            ?.innerText?.split(' ')[0];
+
+          const numberOfRooms = element.querySelector<HTMLElement>(
+            '.prominent li:nth-of-type(3) span:nth-of-type(2)',
+          )?.innerText;
+
+          const propertyFlags = Array.from(
+            element.querySelectorAll<HTMLElement>('.flags-container label'),
+          )
+            .slice(0, 100)
+            .map((propertyFlagElement) => propertyFlagElement.innerText);
+
+          const property = {
+            description,
+            squareMeters: Number(squareMeters),
+            propertyType,
+            numberOfRooms,
+            propertyFlags,
+          };
+
+          return property;
+        });
+      })
+    )[0];
+
+    return { ...property, ...foundProperty };
   }
 }
