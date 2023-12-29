@@ -1,12 +1,19 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { PropertyService } from './property.service';
 
-@Controller()
+@Controller('property')
 export class PropertyController {
   constructor(private readonly propertyService: PropertyService) {}
 
   @Get()
   getHello(): string {
     return this.propertyService.getHello();
+  }
+
+  @Post('sync-properties-from-external-providers')
+  async syncPropertiesFromExternalProviders(): Promise<string> {
+    this.propertyService.syncPropertiesFromExternalProviders();
+
+    return 'Syncing properties';
   }
 }

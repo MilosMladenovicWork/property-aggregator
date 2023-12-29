@@ -1,0 +1,1 @@
+POST http://localhost:3000/property/sync-properties-from-external-providers
