@@ -1,48 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { launch } from 'puppeteer';
 import { PropertyHaloOglasiService } from './property-halo-oglasi.service';
 
 @Injectable()
 export class PropertyService {
-  syncPropertiesFromExternalProvidersExecuting = false;
-
   constructor(private propertyHaloOglasiService: PropertyHaloOglasiService) {}
 
   getHello(): string {
     return 'Hello World!';
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_2AM)
   async syncPropertiesFromExternalProviders() {
-    try {
-      if (!this.syncPropertiesFromExternalProvidersExecuting) {
-        this.syncPropertiesFromExternalProvidersExecuting = true;
-
-        const browser = await launch({
-          headless: true,
-          args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--single-process',
-            '--disable-gpu',
-          ],
-        });
-
-        await this.propertyHaloOglasiService.getPropertiesFromHaloOglasi({
-          browser,
-        });
-
-        await browser.close();
-      }
-    } catch (e) {
-      console.log(e);
-    } finally {
-      this.syncPropertiesFromExternalProvidersExecuting = false;
-    }
+    await this.propertyHaloOglasiService.getPropertiesFromHaloOglasi();
   }
 }

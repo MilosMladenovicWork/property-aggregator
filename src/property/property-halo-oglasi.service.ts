@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isNaN, isNil, toNumber } from 'lodash';
 import { Model } from 'mongoose';
-import { Browser, Page } from 'puppeteer';
-import { puppeteerRequestMediaAbortHandler } from 'src/utils/puppeteer/puppeteer-request-media-abort-handler';
+import { InjectPage } from 'nest-puppeteer';
+import { Page } from 'puppeteer';
 import { sleep } from 'src/utils/sleep';
 import { Property } from './schema/property.schema';
 import { PROPERTY_PROVIDERS } from './types/property-providers.enum';
@@ -14,21 +14,19 @@ export class PropertyHaloOglasiService {
 
   constructor(
     @InjectModel(Property.name) private propertyModel: Model<Property>,
+    //@ts-expect-error ts version problem
+    @InjectPage() private readonly page: Page,
   ) {
     this.url = 'https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd';
   }
 
-  async getPropertiesFromHaloOglasi({ browser }: { browser: Browser }) {
-    const page = await browser.newPage();
-
-    await page.setRequestInterception(true);
-
-    page.on('request', puppeteerRequestMediaAbortHandler);
-
+  async getPropertiesFromHaloOglasi() {
     try {
-      await page.goto(this.url);
+      await this.page.goto(this.url);
 
-      const properties = await this.getHaloOglasiPropertiesFromPage({ page });
+      const properties = await this.getHaloOglasiPropertiesFromPage({
+        page: this.page,
+      });
 
       for (const property of properties) {
         await this.propertyModel.updateOne({ url: property.url }, property, {
@@ -37,7 +35,7 @@ export class PropertyHaloOglasiService {
       }
 
       const totalNumberOfPages = await this.getHaloOglasiNumberOfPages({
-        page,
+        page: this.page,
       });
 
       let pageNumber = 2;
@@ -45,10 +43,10 @@ export class PropertyHaloOglasiService {
       while (pageNumber < totalNumberOfPages) {
         await sleep(2000);
 
-        await this.goToPage({ page, pageNumber });
+        await this.goToPage({ page: this.page, pageNumber });
 
         const propertiesOnCurrentPage =
-          await this.getHaloOglasiPropertiesFromPage({ page });
+          await this.getHaloOglasiPropertiesFromPage({ page: this.page });
 
         for (const property of propertiesOnCurrentPage) {
           await this.propertyModel.updateOne({ url: property.url }, property, {

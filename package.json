@@ -30,6 +30,7 @@
     "@nestjs/schedule": "^4.0.0",
     "lodash": "^4.17.21",
     "mongoose": "^8.0.3",
+    "nest-puppeteer": "^1.1.1",
     "puppeteer": "^21.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
