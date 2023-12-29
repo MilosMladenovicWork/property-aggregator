@@ -4,11 +4,8 @@ import { Property } from '../schema/property.schema';
 
 @Injectable()
 export class PropertyHaloOglasiTraversalService {
-  private url: string;
-
-  constructor() {
-    this.url = 'https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd';
-  }
+  private propertyResultsUrl: string =
+    'https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd';
 
   async goToSpecificPropertiesResultPage({
     pageNumber,
@@ -17,11 +14,11 @@ export class PropertyHaloOglasiTraversalService {
     pageNumber: number;
     page: Page;
   }) {
-    const pageUrl = new URL(this.url);
+    const propertyResultsUrl = new URL(this.propertyResultsUrl);
 
-    pageUrl.searchParams.set('page', pageNumber.toString());
+    propertyResultsUrl.searchParams.set('page', pageNumber.toString());
 
-    await page.goto(pageUrl.toString());
+    await page.goto(propertyResultsUrl.toString());
   }
 
   async goToPropertyPage({
