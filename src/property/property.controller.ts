@@ -1,5 +1,5 @@
 import { Controller, Get, Post } from '@nestjs/common';
-import { PropertyService } from './property.service';
+import { PropertyService } from './services/property.service';
 
 @Controller('property')
 export class PropertyController {
