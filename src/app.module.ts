@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { PropertySearchModule } from './property-search/property-search.module';
 import { PropertyModule } from './property/property.module';
 
@@ -13,6 +15,9 @@ import { PropertyModule } from './property/property.module';
       user: 'root',
       pass: 'password',
       authSource: 'admin',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'static'),
     }),
     PropertyModule,
     PropertySearchModule,

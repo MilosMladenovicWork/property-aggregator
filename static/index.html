@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="search-query" type="text"/>
+    <div id="properties"></div>
+</body>
+<script>
+    const searchQuery = document.querySelector('#search-query');
+
+    searchQuery.addEventListener('keyup', (event) => {
+        const propertiesContainer = document.querySelector('#properties');
+
+        propertiesContainer.innerHTML = '';
+
+        const properties = fetch('http://localhost:3000/property-search?' + new URLSearchParams({query: event.target.value}).toString()).then(results => results.json()).then((response) => {
+            let slicedResponse = response.slice(0, 10);
+            
+            for (const item of slicedResponse){
+                const propertyContainer = document.createElement('div');
+                propertyContainer.classList.add('property')
+
+                const propertyLink = document.createElement('a')
+
+                propertyLink.setAttribute('href', item.url)
+
+                propertyContainer.append(propertyLink)
+
+                const propertyTitle = document.createElement('p')
+
+                propertyTitle.innerText = item.title;
+
+                propertyLink.append(propertyTitle)
+
+                const propertyImage = document.createElement('img')
+
+                propertyImage.setAttribute('src', item.image)
+
+                propertyLink.append(propertyImage)
+
+                const propertyDescription = document.createElement('p')
+
+                propertyDescription.innerText = item.description;
+
+                propertyLink.append(propertyDescription)
+
+                propertiesContainer.append(propertyContainer)
+            }
+        })
+    })
+</script>
+</html>
