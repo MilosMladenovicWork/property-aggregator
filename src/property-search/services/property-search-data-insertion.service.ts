@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { PropertyService } from 'src/property/services/property.service';
 
 @Injectable()
@@ -9,6 +10,7 @@ export class PropertySearchDataInsertionService {
     private propertyService: PropertyService,
   ) {}
 
+  @Cron(CronExpression.EVERY_DAY_AT_4AM)
   async insertDataFromDb() {
     try {
       await this.elasticsearchService.indices.create({
