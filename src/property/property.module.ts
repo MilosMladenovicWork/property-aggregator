@@ -22,5 +22,6 @@ import { PropertyService } from './services/property.service';
     PropertyHaloOglasiTraversalService,
     PropertyHaloOglasiDataExtractingService,
   ],
+  exports: [PropertyService],
 })
 export class PropertyModule {}
