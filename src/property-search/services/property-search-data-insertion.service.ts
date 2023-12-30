@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
-import { omit } from 'lodash';
 import { PropertyService } from 'src/property/services/property.service';
 
 @Injectable()
@@ -35,12 +34,10 @@ export class PropertySearchDataInsertionService {
       await this.propertyService.getAllPropertiesForSearchIndexing();
 
     for (const property of properties) {
-      const propertyWithoutMetadata = omit(property.toObject(), ['_v', '_id']);
-
       await this.elasticsearchService.index({
         index: 'properties',
         id: property.url,
-        document: propertyWithoutMetadata,
+        document: property,
       });
     }
   }
