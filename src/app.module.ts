@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
+import { PropertySearchModule } from './property-search/property-search.module';
 import { PropertyModule } from './property/property.module';
 
 @Module({
@@ -14,6 +15,7 @@ import { PropertyModule } from './property/property.module';
       authSource: 'admin',
     }),
     PropertyModule,
+    PropertySearchModule,
   ],
 })
 export class AppModule {}
