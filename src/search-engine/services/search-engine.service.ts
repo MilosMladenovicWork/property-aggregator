@@ -6,6 +6,8 @@ import { Property } from 'src/property/schema/property.schema';
 export class SearchEngineService {
   constructor(private readonly elasticsearchService: ElasticsearchService) {}
 
+  private index = 'properties';
+
   async searchForProperties({
     query,
     from = 0,
@@ -18,7 +20,7 @@ export class SearchEngineService {
     const searchMatches = await this.elasticsearchService.search<{
       _id: string;
     }>({
-      index: 'properties',
+      index: this.index,
       query: {
         multi_match: {
           query: query ? query : '',
@@ -35,7 +37,7 @@ export class SearchEngineService {
   async createPropertyIndex() {
     try {
       await this.elasticsearchService.indices.create({
-        index: 'properties',
+        index: this.index,
         mappings: {
           properties: {
             title: { type: 'text' },
@@ -56,7 +58,7 @@ export class SearchEngineService {
 
   async indexProperty({ property }: { property: Property }) {
     await this.elasticsearchService.index({
-      index: 'properties',
+      index: this.index,
       id: property.url,
       document: property,
     });
