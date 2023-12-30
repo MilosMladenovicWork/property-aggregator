@@ -98,7 +98,7 @@ export class PropertyHaloOglasiDataExtractingService {
             propertyType,
             numberOfRooms,
             propertyFlags,
-            price,
+            price: price ? Number(price.replace(/[^0-9.-]+/g, '')) : null,
           };
 
           return property;

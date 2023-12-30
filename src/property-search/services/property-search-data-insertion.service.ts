@@ -23,7 +23,7 @@ export class PropertySearchDataInsertionService {
             squareMeters: { type: 'integer' },
             numberOfRooms: { type: 'text' },
             propertyFlags: { type: 'text' },
-            price: { type: 'text' },
+            price: { type: 'integer' },
           },
         },
       });

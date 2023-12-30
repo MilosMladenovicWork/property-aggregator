@@ -36,8 +36,8 @@ export class Property {
   @Prop({ default: [] })
   propertyFlags: string[];
 
-  @Prop({ type: 'string' })
-  price?: string | null;
+  @Prop({ type: 'number' })
+  price?: number | null;
 }
 
 export const PropertySchema = SchemaFactory.createForClass(Property);
