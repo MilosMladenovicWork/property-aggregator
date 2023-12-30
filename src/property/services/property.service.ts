@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Model } from 'mongoose';
-import { Property } from '../schema/property.schema';
+import { Property, PropertyDocument } from '../schema/property.schema';
 import { PropertyHaloOglasiService } from './property-halo-oglasi.service';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class PropertyService {
     await this.propertyHaloOglasiService.getPropertiesFromHaloOglasi();
   }
 
-  getAllPropertiesForSearchIndexing(): Promise<Property[]> {
+  getAllPropertiesForSearchIndexing(): Promise<PropertyDocument[]> {
     return this.propertyModel.find().exec();
   }
 }
