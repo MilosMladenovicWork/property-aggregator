@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { PropertyModule } from 'src/property/property.module';
+import { SearchEngineModule } from 'src/search-engine/search-engine.module';
 import { PropertySearchController } from './property-search.controller';
 import { PropertySearchDataGettingService } from './services/property-search-data-getting.service';
 import { PropertySearchDataInsertionService } from './services/property-search-data-insertion.service';
 
 @Module({
-  imports: [
-    ElasticsearchModule.register({
-      node: 'http://localhost:9200',
-    }),
-    PropertyModule,
-  ],
+  imports: [PropertyModule, SearchEngineModule],
   providers: [
     PropertySearchDataInsertionService,
     PropertySearchDataGettingService,
