@@ -35,6 +35,9 @@ export class Property {
 
   @Prop({ default: [] })
   propertyFlags: string[];
+
+  @Prop({ type: 'string' })
+  price?: string | null;
 }
 
 export const PropertySchema = SchemaFactory.createForClass(Property);

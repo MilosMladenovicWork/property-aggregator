@@ -89,12 +89,16 @@ export class PropertyHaloOglasiDataExtractingService {
             .slice(0, 100)
             .map((propertyFlagElement) => propertyFlagElement.innerText);
 
+          const price =
+            element.querySelector<HTMLElement>('.offer-price-value')?.innerText;
+
           const property = {
             description,
             squareMeters: Number(squareMeters),
             propertyType,
             numberOfRooms,
             propertyFlags,
+            price,
           };
 
           return property;
