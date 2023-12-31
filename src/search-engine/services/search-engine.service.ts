@@ -79,8 +79,62 @@ export class SearchEngineService {
 
     const queryMustContainer: QueryDslQueryContainer[] = [];
 
+    this.pushQueryConditionToQuery({
+      query,
+      queryConditions: queryMustContainer,
+    });
+
+    this.pushLocationConditionToQuery({
+      location,
+      queryConditions: queryMustContainer,
+    });
+
+    this.pushNumberOfRoomsConditionToQuery({
+      numberOfRooms,
+      queryConditions: queryMustContainer,
+    });
+
+    this.pushPropertyFlagsConditionToQuery({
+      propertyFlags,
+      queryConditions: queryMustContainer,
+    });
+
+    this.pushPriceMinConditionToQuery({
+      priceMin,
+      queryConditions: queryMustContainer,
+    });
+
+    this.pushPriceMaxConditionToQuery({
+      priceMax,
+      queryConditions: queryMustContainer,
+    });
+
+    this.pushSquareMetersMinConditionToQuery({
+      squareMetersMin,
+      queryConditions: queryMustContainer,
+    });
+
+    this.pushSquareMetersMaxConditionToQuery({
+      squareMetersMax,
+      queryConditions: queryMustContainer,
+    });
+
+    if (!isNil(queryRootContainer.bool?.must)) {
+      queryRootContainer.bool.must = queryMustContainer;
+    }
+
+    return queryRootContainer;
+  }
+
+  private pushQueryConditionToQuery({
+    query,
+    queryConditions,
+  }: {
+    query?: string | null;
+    queryConditions: QueryDslQueryContainer[];
+  }) {
     if (!isNil(query)) {
-      queryMustContainer.push({
+      queryConditions.push({
         combined_fields: {
           query,
           fields: [
@@ -94,68 +148,118 @@ export class SearchEngineService {
         },
       });
     }
+  }
 
+  private pushLocationConditionToQuery({
+    location,
+    queryConditions,
+  }: {
+    location?: string | null;
+    queryConditions: QueryDslQueryContainer[];
+  }) {
     if (!isNil(location)) {
-      queryMustContainer.push({
+      queryConditions.push({
         match: {
           location,
         },
       });
     }
+  }
 
+  private pushNumberOfRoomsConditionToQuery({
+    numberOfRooms,
+    queryConditions,
+  }: {
+    numberOfRooms?: string | null;
+    queryConditions: QueryDslQueryContainer[];
+  }) {
     if (!isNil(numberOfRooms)) {
-      queryMustContainer.push({
+      queryConditions.push({
         match: {
           numberOfRooms,
         },
       });
     }
+  }
 
+  private pushPropertyFlagsConditionToQuery({
+    propertyFlags,
+    queryConditions,
+  }: {
+    propertyFlags?: string | null;
+    queryConditions: QueryDslQueryContainer[];
+  }) {
     if (!isNil(propertyFlags)) {
-      queryMustContainer.push({
+      queryConditions.push({
         match: {
           propertyFlags,
         },
       });
     }
+  }
 
+  private pushPriceMinConditionToQuery({
+    priceMin,
+    queryConditions,
+  }: {
+    priceMin?: string | null;
+    queryConditions: QueryDslQueryContainer[];
+  }) {
     if (!isNil(priceMin)) {
-      queryMustContainer.push({
+      queryConditions.push({
         range: {
           price: { gte: priceMin },
         },
       });
     }
+  }
 
+  private pushPriceMaxConditionToQuery({
+    priceMax,
+    queryConditions,
+  }: {
+    priceMax?: string | null;
+    queryConditions: QueryDslQueryContainer[];
+  }) {
     if (!isNil(priceMax)) {
-      queryMustContainer.push({
+      queryConditions.push({
         range: {
           price: { lte: priceMax },
         },
       });
     }
+  }
 
+  private pushSquareMetersMinConditionToQuery({
+    squareMetersMin,
+    queryConditions,
+  }: {
+    squareMetersMin?: string | null;
+    queryConditions: QueryDslQueryContainer[];
+  }) {
     if (!isNil(squareMetersMin)) {
-      queryMustContainer.push({
+      queryConditions.push({
         range: {
           squareMeters: { gte: squareMetersMin },
         },
       });
     }
+  }
 
+  private pushSquareMetersMaxConditionToQuery({
+    squareMetersMax,
+    queryConditions,
+  }: {
+    squareMetersMax?: string | null;
+    queryConditions: QueryDslQueryContainer[];
+  }) {
     if (!isNil(squareMetersMax)) {
-      queryMustContainer.push({
+      queryConditions.push({
         range: {
           squareMeters: { lte: squareMetersMax },
         },
       });
     }
-
-    if (!isNil(queryRootContainer.bool?.must)) {
-      queryRootContainer.bool.must = queryMustContainer;
-    }
-
-    return queryRootContainer;
   }
 
   async createPropertyIndex() {
