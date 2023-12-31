@@ -13,10 +13,27 @@ export class PropertySearchController {
 
   @Get()
   async search(
-    @Query() propertySearchSearchRequestQuery: PropertySearchSearchRequestQuery,
+    @Query()
+    {
+      query,
+      location,
+      numberOfRooms,
+      priceMax,
+      priceMin,
+      propertyFlags,
+      squareMetersMax,
+      squareMetersMin,
+    }: PropertySearchSearchRequestQuery,
   ): Promise<Property[]> {
     const data = await this.propertySearchDataGettingService.search({
-      query: propertySearchSearchRequestQuery.query,
+      query,
+      location,
+      numberOfRooms,
+      priceMax,
+      priceMin,
+      propertyFlags,
+      squareMetersMax,
+      squareMetersMin,
     });
 
     return data;

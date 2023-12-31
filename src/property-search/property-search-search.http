@@ -1,1 +1,1 @@
-GET http://localhost:3000/property-search?query=vidikovac
+GET http://localhost:3000/property-search?query=vidikovac%20jednosoban&propertyFlags=lift&location=Vinogradski%20venac&numberOfRooms=5+&priceMin=194&priceMax=200&squareMetersMin=100&squareMetersMax=200

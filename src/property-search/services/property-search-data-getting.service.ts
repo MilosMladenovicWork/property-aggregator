@@ -10,9 +10,34 @@ export class PropertySearchDataGettingService {
     private readonly propertyService: PropertyService,
   ) {}
 
-  async search({ query }: { query?: string | null }): Promise<Property[]> {
+  async search({
+    query,
+    location,
+    numberOfRooms,
+    priceMax,
+    priceMin,
+    propertyFlags,
+    squareMetersMax,
+    squareMetersMin,
+  }: {
+    query?: string | null;
+    location?: string | null;
+    numberOfRooms?: string | null;
+    priceMax?: string | null;
+    priceMin?: string | null;
+    propertyFlags?: string | null;
+    squareMetersMax?: string | null;
+    squareMetersMin?: string | null;
+  }): Promise<Property[]> {
     const searchMatches = await this.searchEngineService.searchForProperties({
       query,
+      location,
+      numberOfRooms,
+      priceMax,
+      priceMin,
+      propertyFlags,
+      squareMetersMax,
+      squareMetersMin,
       from: 0,
       size: 100,
     });
