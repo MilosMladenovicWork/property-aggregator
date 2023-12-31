@@ -22,9 +22,10 @@ export class SearchEngineService {
     }>({
       index: this.index,
       query: {
-        multi_match: {
+        combined_fields: {
           query: query ? query : '',
           fields: ['title', 'description', 'location', 'propertyType'],
+          operator: 'and',
         },
       },
       from,
