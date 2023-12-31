@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { SearchEnginePropertiesIndexingService } from './services/search-engine-properties-indexing.service';
 import { SearchEnginePropertiesSearchingService } from './services/search-engine-properties-searching.service';
-import { SearchEngineService } from './services/search-engine.service';
 
 @Module({
   imports: [
@@ -9,7 +9,13 @@ import { SearchEngineService } from './services/search-engine.service';
       node: 'http://localhost:9200',
     }),
   ],
-  providers: [SearchEngineService, SearchEnginePropertiesSearchingService],
-  exports: [SearchEngineService, SearchEnginePropertiesSearchingService],
+  providers: [
+    SearchEnginePropertiesSearchingService,
+    SearchEnginePropertiesIndexingService,
+  ],
+  exports: [
+    SearchEnginePropertiesSearchingService,
+    SearchEnginePropertiesIndexingService,
+  ],
 })
 export class SearchEngineModule {}

@@ -3,7 +3,7 @@ import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { Property } from 'src/property/schema/property.schema';
 
 @Injectable()
-export class SearchEngineService {
+export class SearchEnginePropertiesIndexingService {
   constructor(private readonly elasticsearchService: ElasticsearchService) {}
 
   private index = 'properties';
