@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Property } from 'src/property/schema/property.schema';
 import { PropertyService } from 'src/property/services/property.service';
-import { SearchEngineService } from 'src/search-engine/services/search-engine.service';
+import { SearchEnginePropertiesSearchingService } from 'src/search-engine/services/search-engine-properties-searching.service';
 
 @Injectable()
 export class PropertySearchDataGettingService {
   constructor(
-    private readonly searchEngineService: SearchEngineService,
+    private readonly searchEnginePropertiesSearchingService: SearchEnginePropertiesSearchingService,
     private readonly propertyService: PropertyService,
   ) {}
 
@@ -29,18 +29,19 @@ export class PropertySearchDataGettingService {
     squareMetersMax?: string | null;
     squareMetersMin?: string | null;
   }): Promise<Property[]> {
-    const searchMatches = await this.searchEngineService.searchForProperties({
-      query,
-      location,
-      numberOfRooms,
-      priceMax,
-      priceMin,
-      propertyFlags,
-      squareMetersMax,
-      squareMetersMin,
-      from: 0,
-      size: 100,
-    });
+    const searchMatches =
+      await this.searchEnginePropertiesSearchingService.searchForProperties({
+        query,
+        location,
+        numberOfRooms,
+        priceMax,
+        priceMin,
+        propertyFlags,
+        squareMetersMax,
+        squareMetersMin,
+        from: 0,
+        size: 100,
+      });
 
     const urls = searchMatches.hits.hits.map(({ _id }) => _id);
 
