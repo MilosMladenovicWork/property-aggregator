@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { Property } from 'src/property/schema/property.schema';
+import { SEARCH_ENGINE_PROPERTIES_INDEX } from '../constants/search-engine.constant';
 
 @Injectable()
 export class SearchEnginePropertiesIndexingService {
   constructor(private readonly elasticsearchService: ElasticsearchService) {}
 
-  private index = 'properties';
+  private index = SEARCH_ENGINE_PROPERTIES_INDEX;
 
   async createPropertyIndex() {
     try {

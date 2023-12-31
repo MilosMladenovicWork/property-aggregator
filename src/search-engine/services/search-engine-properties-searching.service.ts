@@ -2,12 +2,13 @@ import { QueryDslQueryContainer } from '@elastic/elasticsearch/lib/api/types';
 import { Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { isNil } from 'lodash';
+import { SEARCH_ENGINE_PROPERTIES_INDEX } from '../constants/search-engine.constant';
 
 @Injectable()
 export class SearchEnginePropertiesSearchingService {
   constructor(private readonly elasticsearchService: ElasticsearchService) {}
 
-  private index = 'properties';
+  private index = SEARCH_ENGINE_PROPERTIES_INDEX;
 
   async searchForProperties({
     query,
