@@ -7,6 +7,13 @@
 </head>
 <body>
     <input id="search-query" type="text"/>
+    <input id="location" type="text"/>
+    <input id="propertyFlags" type="text"/>
+    <input id="numberOfRooms" type="text"/>
+    <input id="squareMetersMin" type="number"/>
+    <input id="squareMetersMax" type="number"/>
+    <input id="priceMin" type="number"/>
+    <input id="priceMax" type="number"/>
     <div id="properties"></div>
 </body>
 <script>
@@ -89,6 +96,76 @@
 
     searchQuery.addEventListener('keyup', (event) => {
         searchInput.notifyObservers({key: 'query', value: event.target.value})
+    })
+
+    const locationInput = document.querySelector('#location');
+    
+    const locationInputObservable = new FormElement()
+
+    locationInputObservable.addObserver(search)
+
+    locationInput.addEventListener('keyup', (event) => {
+        locationInputObservable.notifyObservers({key: 'location', value: event.target.value})
+    })
+
+    const propertyFlagsInput = document.querySelector('#propertyFlags');
+    
+    const propertyFlagsInputObservable = new FormElement()
+
+    propertyFlagsInputObservable.addObserver(search)
+
+    propertyFlagsInput.addEventListener('keyup', (event) => {
+        propertyFlagsInputObservable.notifyObservers({key: 'propertyFlags', value: event.target.value})
+    })
+
+    const numberOfRoomsInput = document.querySelector('#numberOfRooms');
+    
+    const numberOfRoomsInputObservable = new FormElement()
+
+    numberOfRoomsInputObservable.addObserver(search)
+
+    numberOfRoomsInput.addEventListener('keyup', (event) => {
+        numberOfRoomsInputObservable.notifyObservers({key: 'numberOfRooms', value: event.target.value})
+    })
+
+    const squareMetersMinInput = document.querySelector('#squareMetersMin');
+    
+    const squareMetersMinInputObservable = new FormElement()
+
+    squareMetersMinInputObservable.addObserver(search)
+
+    squareMetersMinInput.addEventListener('keyup', (event) => {
+        squareMetersMinInputObservable.notifyObservers({key: 'squareMetersMin', value: event.target.value})
+    })
+
+    const squareMetersMaxInput = document.querySelector('#squareMetersMax');
+    
+    const squareMetersMaxInputObservable = new FormElement()
+
+    squareMetersMaxInputObservable.addObserver(search)
+
+    squareMetersMaxInput.addEventListener('keyup', (event) => {
+        squareMetersMaxInputObservable.notifyObservers({key: 'squareMetersMax', value: event.target.value})
+    })
+
+    const priceMinInput = document.querySelector('#priceMin');
+    
+    const priceMinInputObservable = new FormElement()
+
+    priceMinInputObservable.addObserver(search)
+
+    priceMinInput.addEventListener('keyup', (event) => {
+        priceMinInputObservable.notifyObservers({key: 'priceMin', value: event.target.value})
+    })
+
+    const priceMaxInput = document.querySelector('#priceMax');
+    
+    const priceMaxInputObservable = new FormElement()
+
+    priceMaxInputObservable.addObserver(search)
+
+    priceMaxInput.addEventListener('keyup', (event) => {
+        priceMaxInputObservable.notifyObservers({key: 'priceMax', value: event.target.value})
     })
 </script>
 </html>
