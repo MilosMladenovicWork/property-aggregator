@@ -100,6 +100,10 @@
             let url = 'http://localhost:3000/property-search?'
             
             for(const [key, value] of keyValuePairs){
+                if(value === undefined || value === null || value === ''){
+                    continue;
+                }
+                
                 url += new URLSearchParams({[key]: value}).toString() + '&'
             }
 
