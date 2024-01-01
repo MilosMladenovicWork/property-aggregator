@@ -26,5 +26,7 @@ export class PropertySearchDataInsertionService {
         property,
       });
     }
+
+    console.log('Searh engine - Inserting data for property - finished');
   }
 }
