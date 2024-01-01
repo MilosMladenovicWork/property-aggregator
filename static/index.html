@@ -28,8 +28,8 @@
     <div id="page-container">
         <div id="search-form">
             <div class="search-input">
-                <label for="search-query">Search</label>
-                <input id="search-query" type="text"/>
+                <label for="query">Search</label>
+                <input id="query" type="text"/>
             </div>
             <br/>
             <div class="search-input">
@@ -157,94 +157,34 @@
 
     const search = new Search()
 
-    const searchQuery = document.querySelector('#search-query');
+    const registerInput = (id) =>{
+        const input = document.querySelector(`#${id}`);
     
-    const searchInput = new FormElement()
+        const inputObservable = new FormElement()
 
-    searchInput.addObserver(search)
+        inputObservable.addObserver(search)
 
-    searchQuery.addEventListener('change', (event) => {
-        searchInput.notifyObservers({key: 'query', value: event.target.value})
-    })
+        input.addEventListener('input', (event) => {
+            inputObservable.notifyObservers({key: id, value: event.target.value})
+        })
+    }
 
-    const locationInput = document.querySelector('#location');
-    
-    const locationInputObservable = new FormElement()
+    registerInput('query')
 
-    locationInputObservable.addObserver(search)
+    registerInput('location')
 
-    locationInput.addEventListener('change', (event) => {
-        locationInputObservable.notifyObservers({key: 'location', value: event.target.value})
-    })
+    registerInput('propertyFlags')
 
-    const propertyFlagsInput = document.querySelector('#propertyFlags');
-    
-    const propertyFlagsInputObservable = new FormElement()
+    registerInput('numberOfRooms')
 
-    propertyFlagsInputObservable.addObserver(search)
+    registerInput('squareMetersMin')
 
-    propertyFlagsInput.addEventListener('change', (event) => {
-        propertyFlagsInputObservable.notifyObservers({key: 'propertyFlags', value: event.target.value})
-    })
+    registerInput('squareMetersMax')
 
-    const numberOfRoomsInput = document.querySelector('#numberOfRooms');
-    
-    const numberOfRoomsInputObservable = new FormElement()
+    registerInput('priceMin')
 
-    numberOfRoomsInputObservable.addObserver(search)
+    registerInput('priceMax')
 
-    numberOfRoomsInput.addEventListener('change', (event) => {
-        numberOfRoomsInputObservable.notifyObservers({key: 'numberOfRooms', value: event.target.value})
-    })
-
-    const squareMetersMinInput = document.querySelector('#squareMetersMin');
-    
-    const squareMetersMinInputObservable = new FormElement()
-
-    squareMetersMinInputObservable.addObserver(search)
-
-    squareMetersMinInput.addEventListener('change', (event) => {
-        squareMetersMinInputObservable.notifyObservers({key: 'squareMetersMin', value: event.target.value})
-    })
-
-    const squareMetersMaxInput = document.querySelector('#squareMetersMax');
-    
-    const squareMetersMaxInputObservable = new FormElement()
-
-    squareMetersMaxInputObservable.addObserver(search)
-
-    squareMetersMaxInput.addEventListener('change', (event) => {
-        squareMetersMaxInputObservable.notifyObservers({key: 'squareMetersMax', value: event.target.value})
-    })
-
-    const priceMinInput = document.querySelector('#priceMin');
-    
-    const priceMinInputObservable = new FormElement()
-
-    priceMinInputObservable.addObserver(search)
-
-    priceMinInput.addEventListener('change', (event) => {
-        priceMinInputObservable.notifyObservers({key: 'priceMin', value: event.target.value})
-    })
-
-    const priceMaxInput = document.querySelector('#priceMax');
-    
-    const priceMaxInputObservable = new FormElement()
-
-    priceMaxInputObservable.addObserver(search)
-
-    priceMaxInput.addEventListener('change', (event) => {
-        priceMaxInputObservable.notifyObservers({key: 'priceMax', value: event.target.value})
-    })
-
-    const pageInput = document.querySelector('#page');
-    
-    const pageInputObservable = new FormElement()
-
-    pageInputObservable.addObserver(search)
-
-    pageInput.addEventListener('change', (event) => {
-        pageInputObservable.notifyObservers({key: 'page', value: event.target.value})
-    })
+    registerInput('page')
 </script>
 </html>
