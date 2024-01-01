@@ -34,7 +34,15 @@
 
             this.state[data.key] = data.value;
 
-            const properties = fetch('http://localhost:3000/property-search?' + new URLSearchParams({[data.key]: data.value}).toString()).then(results => results.json()).then((response) => {
+            const keyValuePairs = Object.entries(this.state) 
+
+            let url = 'http://localhost:3000/property-search?'
+            
+            for(const [key, value] of keyValuePairs){
+                url += new URLSearchParams({[data.key]: data.value}).toString()
+            }
+
+            const properties = fetch(url).then(results => results.json()).then((response) => {
             let slicedResponse = response.slice(0, 10);
             
             for (const item of slicedResponse){
