@@ -18,6 +18,10 @@ export class PropertySearchDataInsertionService {
       await this.propertyService.getAllPropertiesForSearchIndexing();
 
     for (const property of properties) {
+      console.log('Searh engine - Inserting data for property', {
+        url: property.url,
+      });
+
       await this.searchEnginePropertiesIndexingService.indexProperty({
         property,
       });

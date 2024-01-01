@@ -106,6 +106,10 @@ export class PropertyHaloOglasiDataExtractingService {
       })
     )[0];
 
+    console.log('Crawler - Extracting data for property', {
+      url: property.url,
+    });
+
     return { ...property, ...foundProperty };
   }
 
