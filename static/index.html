@@ -4,32 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        #page-container{
+            display:flex;
+        }
+        #search-form{
+            width:200px;
+            margin-right: 32px;
+        }
+        #properties{
+            width:100%;
+        }
+        .search-input{
+            display:flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
 <body>
-    <label for="search-query">Search</label>
-    <input id="search-query" type="text"/>
-    <br/>
-    <label for="location">Location</label>
-    <input id="location" type="text"/>
-    <br/>
-    <label for="propertyFlags">Property flags (lift)</label>
-    <input id="propertyFlags" type="text"/>
-    <br/>
-    <label for="numberOfRooms">Number of rooms (0.5,..., 5+)</label>
-    <input id="numberOfRooms" type="text"/>
-    <br/>
-    <label for="squareMetersMin">Square meters min</label>
-    <input id="squareMetersMin" type="number"/>
-    <br/>
-    <label for="squareMetersMax">Square meters max</label>
-    <input id="squareMetersMax" type="number"/>
-    <br/>
-    <label for="priceMin">Price min</label>
-    <input id="priceMin" type="number"/>
-    <br/>
-    <label for="priceMax">Price max</label>
-    <input id="priceMax" type="number"/>
-    <div id="properties"></div>
+    <div id="page-container">
+        <div id="search-form">
+            <div class="search-input">
+                <label for="search-query">Search</label>
+                <input id="search-query" type="text"/>
+            </div>
+            <br/>
+            <div class="search-input">
+                <label for="location">Location</label>
+                <input id="location" type="text"/>
+            </div>
+            <br/>
+            <div class="search-input">
+                <label for="propertyFlags">Property flags (lift)</label>
+                <input id="propertyFlags" type="text"/>
+            </div>
+            <br/>
+            <div class="search-input">
+                <label for="numberOfRooms">Number of rooms (0.5,..., 5+)</label>
+                <input id="numberOfRooms" type="text"/>
+            </div>
+            <br/>
+            <div class="search-input">
+                <label for="squareMetersMin">Square meters min</label>
+                <input id="squareMetersMin" type="number"/>
+            </div>
+            <br/>
+            <div class="search-input">
+                <label for="squareMetersMax">Square meters max</label>
+                <input id="squareMetersMax" type="number"/>
+            </div>
+            <br/>
+            <div class="search-input">
+                <label for="priceMin">Price min</label>
+                <input id="priceMin" type="number"/>
+            </div>
+            <br/>
+            <div class="search-input">
+                <label for="priceMax">Price max</label>
+                <input id="priceMax" type="number"/>
+            </div>
+        </div>
+        <div id="properties"></div>
+    </div>
 </body>
 <script>
     class FormElement {
