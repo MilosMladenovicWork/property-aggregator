@@ -61,7 +61,7 @@
             let url = 'http://localhost:3000/property-search?'
             
             for(const [key, value] of keyValuePairs){
-                url += new URLSearchParams({[data.key]: data.value}).toString()
+                url += new URLSearchParams({[key]: value}).toString() + '&'
             }
 
             const properties = fetch(url).then(results => results.json()).then((response) => {
