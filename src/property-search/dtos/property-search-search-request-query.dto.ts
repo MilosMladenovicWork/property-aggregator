@@ -8,12 +8,15 @@ import {
   Min,
 } from 'class-validator';
 import {
+  PROPERTY_SEARCH_FROM_MIN,
   PROPERTY_SEARCH_LOCATION_MAX_LENGTH,
   PROPERTY_SEARCH_NUMBER_OF_ROOMS_MAX_LENGTH,
   PROPERTY_SEARCH_PRICE_MAX,
   PROPERTY_SEARCH_PRICE_MIN,
   PROPERTY_SEARCH_PROPERTY_FLAGS_MAX_LENGTH,
   PROPERTY_SEARCH_QUERY_MAX_LENGTH,
+  PROPERTY_SEARCH_SIZE_MAX,
+  PROPERTY_SEARCH_SIZE_MIN,
   PROPERTY_SEARCH_SQUARE_METERS_MAX,
   PROPERTY_SEARCH_SQUARE_METERS_MIN,
 } from '../constants/property-search.constant';
@@ -66,4 +69,17 @@ export class PropertySearchSearchRequestQuery {
   @Max(PROPERTY_SEARCH_PRICE_MAX)
   @IsOptional()
   priceMax?: number | null;
+
+  @IsNumber()
+  @Type(() => Number)
+  @Min(PROPERTY_SEARCH_FROM_MIN)
+  @IsOptional()
+  from?: number | null;
+
+  @IsNumber()
+  @Type(() => Number)
+  @Min(PROPERTY_SEARCH_SIZE_MIN)
+  @Max(PROPERTY_SEARCH_SIZE_MAX)
+  @IsOptional()
+  size?: number | null;
 }

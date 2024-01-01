@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { isNil } from 'lodash';
 import { Property } from 'src/property/schema/property.schema';
 import { PropertyService } from 'src/property/services/property.service';
 import { SearchEnginePropertiesSearchingService } from 'src/search-engine/services/search-engine-properties-searching.service';
@@ -19,6 +20,8 @@ export class PropertySearchDataGettingService {
     propertyFlags,
     squareMetersMax,
     squareMetersMin,
+    from,
+    size,
   }: {
     query?: string | null;
     location?: string | null;
@@ -28,6 +31,8 @@ export class PropertySearchDataGettingService {
     propertyFlags?: string | null;
     squareMetersMax?: number | null;
     squareMetersMin?: number | null;
+    from?: number | null;
+    size?: number | null;
   }): Promise<Property[]> {
     const searchMatches =
       await this.searchEnginePropertiesSearchingService.searchForProperties({
@@ -39,8 +44,8 @@ export class PropertySearchDataGettingService {
         propertyFlags,
         squareMetersMax,
         squareMetersMin,
-        from: 0,
-        size: 100,
+        from: !isNil(from) ? from : 0,
+        size: !isNil(size) ? size : 100,
       });
 
     const urls = searchMatches.hits.hits.map(({ _id }) => _id);

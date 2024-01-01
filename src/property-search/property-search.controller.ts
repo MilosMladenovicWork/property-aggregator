@@ -23,6 +23,8 @@ export class PropertySearchController {
       propertyFlags,
       squareMetersMax,
       squareMetersMin,
+      from,
+      size,
     }: PropertySearchSearchRequestQuery,
   ): Promise<Property[]> {
     const data = await this.propertySearchDataGettingService.search({
@@ -34,6 +36,8 @@ export class PropertySearchController {
       propertyFlags,
       squareMetersMax,
       squareMetersMin,
+      from,
+      size,
     });
 
     return data;
