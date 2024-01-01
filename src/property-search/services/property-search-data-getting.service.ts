@@ -23,11 +23,11 @@ export class PropertySearchDataGettingService {
     query?: string | null;
     location?: string | null;
     numberOfRooms?: string | null;
-    priceMax?: string | null;
-    priceMin?: string | null;
+    priceMax?: number | null;
+    priceMin?: number | null;
     propertyFlags?: string | null;
-    squareMetersMax?: string | null;
-    squareMetersMin?: string | null;
+    squareMetersMax?: number | null;
+    squareMetersMin?: number | null;
   }): Promise<Property[]> {
     const searchMatches =
       await this.searchEnginePropertiesSearchingService.searchForProperties({

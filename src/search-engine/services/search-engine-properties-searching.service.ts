@@ -25,11 +25,11 @@ export class SearchEnginePropertiesSearchingService {
     query?: string | null;
     location?: string | null;
     numberOfRooms?: string | null;
-    priceMax?: string | null;
-    priceMin?: string | null;
+    priceMax?: number | null;
+    priceMin?: number | null;
     propertyFlags?: string | null;
-    squareMetersMax?: string | null;
-    squareMetersMin?: string | null;
+    squareMetersMax?: number | null;
+    squareMetersMin?: number | null;
     from?: number;
     size?: number;
   }) {
@@ -69,11 +69,11 @@ export class SearchEnginePropertiesSearchingService {
     query?: string | null;
     location?: string | null;
     numberOfRooms?: string | null;
-    priceMax?: string | null;
-    priceMin?: string | null;
+    priceMax?: number | null;
+    priceMin?: number | null;
     propertyFlags?: string | null;
-    squareMetersMax?: string | null;
-    squareMetersMin?: string | null;
+    squareMetersMax?: number | null;
+    squareMetersMin?: number | null;
   }): QueryDslQueryContainer {
     const queryRootContainer: QueryDslQueryContainer = { bool: { must: [] } };
 
@@ -202,7 +202,7 @@ export class SearchEnginePropertiesSearchingService {
     priceMin,
     queryConditions,
   }: {
-    priceMin?: string | null;
+    priceMin?: number | null;
     queryConditions: QueryDslQueryContainer[];
   }) {
     if (!isNil(priceMin)) {
@@ -218,7 +218,7 @@ export class SearchEnginePropertiesSearchingService {
     priceMax,
     queryConditions,
   }: {
-    priceMax?: string | null;
+    priceMax?: number | null;
     queryConditions: QueryDslQueryContainer[];
   }) {
     if (!isNil(priceMax)) {
@@ -234,7 +234,7 @@ export class SearchEnginePropertiesSearchingService {
     squareMetersMin,
     queryConditions,
   }: {
-    squareMetersMin?: string | null;
+    squareMetersMin?: number | null;
     queryConditions: QueryDslQueryContainer[];
   }) {
     if (!isNil(squareMetersMin)) {
@@ -250,7 +250,7 @@ export class SearchEnginePropertiesSearchingService {
     squareMetersMax,
     queryConditions,
   }: {
-    squareMetersMax?: string | null;
+    squareMetersMax?: number | null;
     queryConditions: QueryDslQueryContainer[];
   }) {
     if (!isNil(squareMetersMax)) {

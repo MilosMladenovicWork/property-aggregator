@@ -1,11 +1,21 @@
-import { IsOptional, IsString, MaxLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 import {
   PROPERTY_SEARCH_LOCATION_MAX_LENGTH,
   PROPERTY_SEARCH_NUMBER_OF_ROOMS_MAX_LENGTH,
-  PROPERTY_SEARCH_PRICE_MAX_LENGTH,
+  PROPERTY_SEARCH_PRICE_MAX,
+  PROPERTY_SEARCH_PRICE_MIN,
   PROPERTY_SEARCH_PROPERTY_FLAGS_MAX_LENGTH,
   PROPERTY_SEARCH_QUERY_MAX_LENGTH,
-  PROPERTY_SEARCH_SQUARE_METERS_MAX_LENGTH,
+  PROPERTY_SEARCH_SQUARE_METERS_MAX,
+  PROPERTY_SEARCH_SQUARE_METERS_MIN,
 } from '../constants/property-search.constant';
 
 export class PropertySearchSearchRequestQuery {
@@ -29,23 +39,31 @@ export class PropertySearchSearchRequestQuery {
   @IsOptional()
   numberOfRooms?: string | null;
 
-  @IsString()
-  @MaxLength(PROPERTY_SEARCH_SQUARE_METERS_MAX_LENGTH)
+  @IsNumber()
+  @Type(() => Number)
+  @Min(PROPERTY_SEARCH_SQUARE_METERS_MIN)
+  @Max(PROPERTY_SEARCH_SQUARE_METERS_MAX)
   @IsOptional()
-  squareMetersMin?: string | null;
+  squareMetersMin?: number | null;
 
-  @IsString()
-  @MaxLength(PROPERTY_SEARCH_SQUARE_METERS_MAX_LENGTH)
+  @IsNumber()
+  @Type(() => Number)
+  @Min(PROPERTY_SEARCH_SQUARE_METERS_MIN)
+  @Max(PROPERTY_SEARCH_SQUARE_METERS_MAX)
   @IsOptional()
-  squareMetersMax?: string | null;
+  squareMetersMax?: number | null;
 
-  @IsString()
-  @MaxLength(PROPERTY_SEARCH_PRICE_MAX_LENGTH)
+  @IsNumber()
+  @Type(() => Number)
+  @Min(PROPERTY_SEARCH_PRICE_MIN)
+  @Max(PROPERTY_SEARCH_PRICE_MAX)
   @IsOptional()
-  priceMin?: string | null;
+  priceMin?: number | null;
 
-  @IsString()
-  @MaxLength(PROPERTY_SEARCH_PRICE_MAX_LENGTH)
+  @IsNumber()
+  @Type(() => Number)
+  @Min(PROPERTY_SEARCH_PRICE_MIN)
+  @Max(PROPERTY_SEARCH_PRICE_MAX)
   @IsOptional()
-  priceMax?: string | null;
+  priceMax?: number | null;
 }
