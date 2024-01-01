@@ -66,6 +66,11 @@
                 <label for="priceMax">Price max</label>
                 <input id="priceMax" type="number"/>
             </div>
+            <br/>
+            <div class="search-input">
+                <label for="page">Page</label>
+                <input id="page" type="number"/>
+            </div>
         </div>
         <div id="properties"></div>
     </div>
@@ -86,7 +91,8 @@
     }
 
     class Search {
-        state = {};
+        size = 100;
+        state = {size: this.size};
 
         receiveNotification(data){
             const propertiesContainer = document.querySelector('#properties');
@@ -103,7 +109,12 @@
                 if(value === undefined || value === null || value === ''){
                     continue;
                 }
-                
+
+                if(key === 'page'){
+                    url += new URLSearchParams({from: value * this.size}).toString() + '&';
+                    continue;
+                }
+
                 url += new URLSearchParams({[key]: value}).toString() + '&'
             }
 
@@ -152,7 +163,7 @@
 
     searchInput.addObserver(search)
 
-    searchQuery.addEventListener('keyup', (event) => {
+    searchQuery.addEventListener('change', (event) => {
         searchInput.notifyObservers({key: 'query', value: event.target.value})
     })
 
@@ -162,7 +173,7 @@
 
     locationInputObservable.addObserver(search)
 
-    locationInput.addEventListener('keyup', (event) => {
+    locationInput.addEventListener('change', (event) => {
         locationInputObservable.notifyObservers({key: 'location', value: event.target.value})
     })
 
@@ -172,7 +183,7 @@
 
     propertyFlagsInputObservable.addObserver(search)
 
-    propertyFlagsInput.addEventListener('keyup', (event) => {
+    propertyFlagsInput.addEventListener('change', (event) => {
         propertyFlagsInputObservable.notifyObservers({key: 'propertyFlags', value: event.target.value})
     })
 
@@ -182,7 +193,7 @@
 
     numberOfRoomsInputObservable.addObserver(search)
 
-    numberOfRoomsInput.addEventListener('keyup', (event) => {
+    numberOfRoomsInput.addEventListener('change', (event) => {
         numberOfRoomsInputObservable.notifyObservers({key: 'numberOfRooms', value: event.target.value})
     })
 
@@ -192,7 +203,7 @@
 
     squareMetersMinInputObservable.addObserver(search)
 
-    squareMetersMinInput.addEventListener('keyup', (event) => {
+    squareMetersMinInput.addEventListener('change', (event) => {
         squareMetersMinInputObservable.notifyObservers({key: 'squareMetersMin', value: event.target.value})
     })
 
@@ -202,7 +213,7 @@
 
     squareMetersMaxInputObservable.addObserver(search)
 
-    squareMetersMaxInput.addEventListener('keyup', (event) => {
+    squareMetersMaxInput.addEventListener('change', (event) => {
         squareMetersMaxInputObservable.notifyObservers({key: 'squareMetersMax', value: event.target.value})
     })
 
@@ -212,7 +223,7 @@
 
     priceMinInputObservable.addObserver(search)
 
-    priceMinInput.addEventListener('keyup', (event) => {
+    priceMinInput.addEventListener('change', (event) => {
         priceMinInputObservable.notifyObservers({key: 'priceMin', value: event.target.value})
     })
 
@@ -222,8 +233,18 @@
 
     priceMaxInputObservable.addObserver(search)
 
-    priceMaxInput.addEventListener('keyup', (event) => {
+    priceMaxInput.addEventListener('change', (event) => {
         priceMaxInputObservable.notifyObservers({key: 'priceMax', value: event.target.value})
+    })
+
+    const pageInput = document.querySelector('#page');
+    
+    const pageInputObservable = new FormElement()
+
+    pageInputObservable.addObserver(search)
+
+    pageInput.addEventListener('change', (event) => {
+        pageInputObservable.notifyObservers({key: 'page', value: event.target.value})
     })
 </script>
 </html>
