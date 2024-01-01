@@ -10,14 +10,31 @@
     <div id="properties"></div>
 </body>
 <script>
-    const searchQuery = document.querySelector('#search-query');
+    class FormElement {
+        constructor(){
+            this.observers = []
+        }
 
-    searchQuery.addEventListener('keyup', (event) => {
-        const propertiesContainer = document.querySelector('#properties');
+        addObserver(observer){
+            this.observers.push(observer)
+        }
 
-        propertiesContainer.innerHTML = '';
+        notifyObservers(data){
+            this.observers.forEach(observer => observer.receiveNotification(data))
+        }
+    }
 
-        const properties = fetch('http://localhost:3000/property-search?' + new URLSearchParams({query: event.target.value}).toString()).then(results => results.json()).then((response) => {
+    class Search {
+        state = {};
+
+        receiveNotification(data){
+            const propertiesContainer = document.querySelector('#properties');
+
+            propertiesContainer.innerHTML = '';
+
+            this.state[data.key] = data.value;
+
+            const properties = fetch('http://localhost:3000/property-search?' + new URLSearchParams({[data.key]: data.value}).toString()).then(results => results.json()).then((response) => {
             let slicedResponse = response.slice(0, 10);
             
             for (const item of slicedResponse){
@@ -51,6 +68,19 @@
                 propertiesContainer.append(propertyContainer)
             }
         })
+        }
+    }
+
+    const search = new Search()
+
+    const searchQuery = document.querySelector('#search-query');
+    
+    const searchInput = new FormElement()
+
+    searchInput.addObserver(search)
+
+    searchQuery.addEventListener('keyup', (event) => {
+        searchInput.notifyObservers({key: 'query', value: event.target.value})
     })
 </script>
 </html>
