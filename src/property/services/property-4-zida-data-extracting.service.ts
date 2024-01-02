@@ -138,6 +138,11 @@ export class Property4ZidaDataExtractingService {
       } => !isNil(property),
     );
 
+    console.log(
+      'Crawler - Extracting data for properties on page: ',
+      page.url(),
+    );
+
     return foundProperties.map((property) => {
       const url = new URL(property.url);
       const propertyWithNeededData: Property = {
