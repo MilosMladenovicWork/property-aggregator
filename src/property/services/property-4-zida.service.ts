@@ -5,6 +5,7 @@ import { InjectPage } from 'nest-puppeteer';
 import { Page } from 'puppeteer';
 import { sleep } from 'src/utils/sleep';
 import { Property } from '../schema/property.schema';
+import { PROPERTY_PROVIDERS } from '../types/property-providers.enum';
 import { Property4ZidaDataExtractingService } from './property-4-zida-data-extracting.service';
 import { Property4ZidaTraversalService } from './property-4-zida-traversal.service';
 
@@ -13,7 +14,7 @@ export class Property4ZidaService {
   constructor(
     @InjectModel(Property.name) private propertyModel: Model<Property>,
     //@ts-expect-error ts version problem
-    @InjectPage() private readonly page: Page,
+    @InjectPage(PROPERTY_PROVIDERS.CETIRI_ZIDA) private readonly page: Page,
     private property4ZidaTraversalService: Property4ZidaTraversalService,
     private property4ZidaDataExtractingService: Property4ZidaDataExtractingService,
   ) {}
