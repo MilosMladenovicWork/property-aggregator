@@ -18,7 +18,11 @@ export class PropertyHaloOglasiTraversalService {
 
     propertyResultsUrl.searchParams.set('page', pageNumber.toString());
 
-    await page.goto(propertyResultsUrl.toString());
+    console.log('Navigating to: ', propertyResultsUrl.toString());
+
+    await page.goto(propertyResultsUrl.toString(), {
+      waitUntil: 'domcontentloaded',
+    });
   }
 
   async goToPropertyPage({
@@ -28,6 +32,7 @@ export class PropertyHaloOglasiTraversalService {
     page: Page;
     property: Property;
   }) {
-    await page.goto(property.url);
+    console.log('Navigating to: ', property.url);
+    await page.goto(property.url, { waitUntil: 'domcontentloaded' });
   }
 }
