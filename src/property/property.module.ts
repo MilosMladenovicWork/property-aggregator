@@ -10,13 +10,15 @@ import { PropertyHaloOglasiDataExtractingService } from './services/property-hal
 import { PropertyHaloOglasiTraversalService } from './services/property-halo-oglasi-traversal.service';
 import { PropertyHaloOglasiService } from './services/property-halo-oglasi.service';
 import { PropertyService } from './services/property.service';
+import { PROPERTY_PROVIDERS } from './types/property-providers.enum';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Property.name, schema: PropertySchema },
     ]),
-    PuppeteerModule.forRoot(),
+    PuppeteerModule.forRoot({}, PROPERTY_PROVIDERS.HALO_OGLASI),
+    PuppeteerModule.forRoot({}, PROPERTY_PROVIDERS.CETIRI_ZIDA),
   ],
   controllers: [PropertyController],
   providers: [
