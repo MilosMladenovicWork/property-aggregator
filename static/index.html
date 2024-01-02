@@ -119,9 +119,7 @@
             }
 
             const properties = fetch(url).then(results => results.json()).then((response) => {
-            let slicedResponse = response.slice(0, 10);
-            
-            for (const item of slicedResponse){
+            for (const item of response){
                 const propertyContainer = document.createElement('div');
                 propertyContainer.classList.add('property')
 
