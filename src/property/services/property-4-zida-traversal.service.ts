@@ -3,7 +3,7 @@ import { Page } from 'puppeteer';
 import { Property } from '../schema/property.schema';
 
 @Injectable()
-export class PropertyHaloOglasiTraversalService {
+export class Property4ZidaTraversalService {
   private propertyResultsUrl: string =
     'https://www.4zida.rs/prodaja-stanova/beograd';
 

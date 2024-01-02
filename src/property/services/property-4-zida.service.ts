@@ -6,7 +6,7 @@ import { Page } from 'puppeteer';
 import { Property } from '../schema/property.schema';
 
 @Injectable()
-export class PropertyHaloOglasiService {
+export class Property4ZidaService {
   constructor(
     @InjectModel(Property.name) private propertyModel: Model<Property>,
     //@ts-expect-error ts version problem
