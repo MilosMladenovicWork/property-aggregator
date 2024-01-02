@@ -5,6 +5,7 @@ import { InjectPage } from 'nest-puppeteer';
 import { Page } from 'puppeteer';
 import { sleep } from 'src/utils/sleep';
 import { Property } from '../schema/property.schema';
+import { PROPERTY_PROVIDERS } from '../types/property-providers.enum';
 import { PropertyHaloOglasiDataExtractingService } from './property-halo-oglasi-data-extracting.service';
 import { PropertyHaloOglasiTraversalService } from './property-halo-oglasi-traversal.service';
 
@@ -13,7 +14,7 @@ export class PropertyHaloOglasiService {
   constructor(
     @InjectModel(Property.name) private propertyModel: Model<Property>,
     //@ts-expect-error ts version problem
-    @InjectPage() private readonly page: Page,
+    @InjectPage(PROPERTY_PROVIDERS.HALO_OGLASI) private readonly page: Page,
     private propertyHaloOglasiTraversalService: PropertyHaloOglasiTraversalService,
     private propertyHaloOglasiDataExtractingService: PropertyHaloOglasiDataExtractingService,
   ) {}
