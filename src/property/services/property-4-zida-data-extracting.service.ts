@@ -8,7 +8,7 @@ import { PROPERTY_PROVIDERS } from '../types/property-providers.enum';
 export class Property4ZidaDataExtractingService {
   constructor() {}
 
-  public async getHaloOglasiNumberOfPagesFromPropertyResultsPage() {
+  public async get4ZidaNumberOfPagesFromPropertyResultsPage() {
     // restriction imposed by 4 zida
     return 100;
   }
