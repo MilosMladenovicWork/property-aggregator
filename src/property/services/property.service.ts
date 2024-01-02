@@ -3,12 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Model } from 'mongoose';
 import { Property } from '../schema/property.schema';
+import { Property4ZidaService } from './property-4-zida.service';
 import { PropertyHaloOglasiService } from './property-halo-oglasi.service';
 
 @Injectable()
 export class PropertyService {
   constructor(
     private propertyHaloOglasiService: PropertyHaloOglasiService,
+    private property4ZidaService: Property4ZidaService,
     @InjectModel(Property.name) private propertyModel: Model<Property>,
   ) {}
 
@@ -18,7 +20,8 @@ export class PropertyService {
 
   @Cron(CronExpression.EVERY_DAY_AT_2AM)
   async syncPropertiesFromExternalProviders() {
-    await this.propertyHaloOglasiService.getPropertiesFromHaloOglasi();
+    this.propertyHaloOglasiService.getPropertiesFromHaloOglasi();
+    this.property4ZidaService.getPropertiesFrom4Zida();
   }
 
   getAllPropertiesForSearchIndexing(): Promise<Property[]> {

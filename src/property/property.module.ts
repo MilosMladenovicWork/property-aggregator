@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PuppeteerModule } from 'nest-puppeteer';
 import { PropertyController } from './property.controller';
 import { Property, PropertySchema } from './schema/property.schema';
+import { Property4ZidaDataExtractingService } from './services/property-4-zida-data-extracting.service';
 import { Property4ZidaTraversalService } from './services/property-4-zida-traversal.service';
 import { Property4ZidaService } from './services/property-4-zida.service';
 import { PropertyHaloOglasiDataExtractingService } from './services/property-halo-oglasi-data-extracting.service';
@@ -25,6 +26,7 @@ import { PropertyService } from './services/property.service';
     PropertyHaloOglasiDataExtractingService,
     Property4ZidaService,
     Property4ZidaTraversalService,
+    Property4ZidaDataExtractingService,
   ],
   exports: [PropertyService],
 })
