@@ -111,7 +111,7 @@ export class Property4ZidaDataExtractingService {
             ?.getAttribute('src');
 
           const href = element
-            .querySelector<HTMLElement>('a')
+            .querySelector<HTMLElement>('app-link a')
             ?.getAttribute('href');
 
           if (!image || !title || !href) {
